@@ -1,19 +1,12 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Button } from '../components/button';
 import { RootTabScreenProps } from '../types';
-
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
-
-const shortenAddress = (address: string) => {
-  return `${address.slice(0, 6)}...${address.slice(
-    address.length - 4,
-    address.length
-  )}`;
-}
+import { shortenAddress } from '../utils';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const connector = useWalletConnect();
