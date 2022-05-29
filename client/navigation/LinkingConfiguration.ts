@@ -8,6 +8,7 @@ import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
 import { RootStackParamList } from '../types';
+import { ROUTES } from './routes';
 
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.makeUrl('/')],
@@ -17,17 +18,22 @@ const linking: LinkingOptions<RootStackParamList> = {
         screens: {
           TabOne: {
             screens: {
-              TabOneScreen: 'one',
+              TabOneScreen: ROUTES.TAB_ONE,
             },
           },
           TabTwo: {
             screens: {
-              TabTwoScreen: 'two',
+              TabTwoScreen: ROUTES.TAB_TWO,
+            },
+          },
+          QRScanner: {
+            screens: {
+              QRCodeScannerScreen: ROUTES.QR_SCANNER,
             },
           },
         },
       },
-      Modal: 'modal',
+      Modal: ROUTES.MODAL,
       NotFound: '*',
     },
   },
