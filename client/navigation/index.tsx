@@ -18,7 +18,6 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { QRCodeScannerScreen } from '../screens/qr-code-scanner';
-console.log('QRCodeScannerScreen', QRCodeScannerScreen);
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';

@@ -4,9 +4,13 @@ import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner';
 
 import { Button as AppButton } from '../../components/button';
 
+import { Scanner, IScanner } from '../../services/scanner';
+
+import { ROUTES } from '../../navigation/routes';
+
 import { styles } from './qr-code-scanner.styles';
 
-export function QRCodeScannerScreen() {
+export function QRCodeScannerScreen({ navigation }: any) { // TODO: add types
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [scanned, setScanned] = useState<boolean>(false);
   const [text, setText] = useState<string>('Not yet scanned')
@@ -25,9 +29,12 @@ export function QRCodeScannerScreen() {
 
   // What happens when we scan the bar code
   const handleBarCodeScanned: BarCodeScannedCallback = useCallback(({ type, data }: any) => {
-    setScanned(true);
-    setText(data)
-    console.log('Type: ' + type + '\nData: ' + data)
+    const callback = () => {
+      setScanned(true);
+      setText(data)
+    };
+    const scanner: IScanner = new Scanner(navigation);
+    scanner.scanAndRedirect(callback, ROUTES.TAB_ONE) // TODO: replace by actual
   }, []);
 
   // Check permissions and return the screens
@@ -51,7 +58,7 @@ export function QRCodeScannerScreen() {
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 400, width: 400 }} />
+          style={{ height: 450, width: 450 }} />
       </View>
       <Text style={styles.maintext}>{text}</Text>
 

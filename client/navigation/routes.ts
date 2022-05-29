@@ -1,6 +1,6 @@
 export enum ROUTES {
-  TAB_ONE = 'one',
-  TAB_TWO = 'two',
+  TAB_ONE = 'TabOne',
+  TAB_TWO = 'TabTwo',
   MODAL = 'modal',
-  QR_SCANNER = 'qrscanner',
+  QR_SCANNER = 'QRScanner',
 };
