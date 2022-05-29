@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner';
 
+import { Button as AppButton } from '../../components/button';
+
 import { styles } from './qr-code-scanner.styles';
 
 export function QRCodeScannerScreen() {
@@ -54,9 +56,11 @@ export function QRCodeScannerScreen() {
       <Text style={styles.maintext}>{text}</Text>
 
     {scanned &&
-      <TouchableOpacity onPress={() => setScanned(false)} style={styles.buttonStyle}>
-        <Text style={styles.buttonTextStyle}>Scan again?</Text>
-      </TouchableOpacity>
+      <AppButton
+        onPress={() => setScanned(false)}
+        text='Scan again'
+        isPrimary={false}
+      />
     }
     </View>
   );
