@@ -4,3 +4,8 @@ export const shortenAddress = (address: string) => {
     address.length
   )}`;
 };
+
+export const slicePictureId = (url: string) => {
+  const splitted = url.split('/');
+  return splitted[splitted.length - 1];
+};

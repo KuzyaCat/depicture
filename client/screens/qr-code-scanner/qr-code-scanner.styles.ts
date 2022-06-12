@@ -1,43 +1,34 @@
 import { StyleSheet } from 'react-native';
 
+import COLORS from '../../constants/Colors';
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
-  maintext: {
-    fontSize: 16,
-    margin: 20,
+  containerScan: {
+    marginTop: '20%',
+  },
+  containerButton: {
+    marginBottom: '20%',
+  },
+  containerText: {
+    fontSize: 20,
+    color: COLORS.light.BLACK,
+    fontWeight: 'bold',
+    marginVertical: 15,
+    textAlign: 'center',
   },
   barcodebox: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 300,
-    width: 300,
+    height: 400,
+    width: 350,
     overflow: 'hidden',
     borderRadius: 30,
-    backgroundColor: 'tomato'
-  },
-  buttonStyle: {
-    backgroundColor: "#3399FF",
-    borderWidth: 0,
-    color: "#FFFFFF",
-    borderColor: "#3399FF",
-    height: 40,
-    alignItems: "center",
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  buttonTextStyle: {
-    color: "#FFFFFF",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    fontWeight: "600",
+    backgroundColor: COLORS.light.BLUE,
   },
 });

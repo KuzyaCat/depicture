@@ -5,6 +5,7 @@ import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner';
 import { Button as AppButton } from '../../components/button';
 
 import { Scanner, IScanner } from '../../services/scanner';
+import { slicePictureId } from '../../utils';
 
 import { ROUTES } from '../../navigation/routes';
 
@@ -34,7 +35,7 @@ export function QRCodeScannerScreen({ navigation }: any) { // TODO: add types
       setText(data)
     };
     const scanner: IScanner = new Scanner(navigation);
-    scanner.scanAndRedirect(callback, ROUTES.TAB_ONE) // TODO: replace by actual
+    scanner.scanAndRedirect(callback, ROUTES.PICTURE, { id: slicePictureId(data) });
   }, []);
 
   // Check permissions and return the screens
@@ -55,20 +56,26 @@ export function QRCodeScannerScreen({ navigation }: any) { // TODO: add types
   // Return the View
   return (
     <View style={styles.container}>
-      <View style={styles.barcodebox}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 450, width: 450 }} />
+      <View style={styles.containerScan}>
+        <Text style={styles.containerText}>Scan QR code with camera</Text>
+        <View style={styles.barcodebox}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{ height: 450, width: 450 }} />
+        </View>
       </View>
-      <Text style={styles.maintext}>{text}</Text>
 
-    {scanned &&
-      <AppButton
-        onPress={() => setScanned(false)}
-        text='Scan again'
-        isPrimary={false}
-      />
-    }
+      <View style={styles.containerButton}>
+        {scanned &&
+          <AppButton
+            onPress={() => setScanned(false)}
+            text='Scan again'
+            isPrimary={false}
+            width={200}
+            height={48}
+          />
+        }
+      </View>
     </View>
   );
 }

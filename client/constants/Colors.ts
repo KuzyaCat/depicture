@@ -12,6 +12,8 @@ export default {
     // Colors
     BLUE: '#2F80ED',
     BLACK: '#272727',
+    GRAY: '#999999',
+    RED: '#F12020',
   },
   dark: {
     text: '#fff',

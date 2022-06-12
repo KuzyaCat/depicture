@@ -9,25 +9,39 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
+import { WelcomeScreen } from '../screens/welcome-screen';
+import { ScanScreen } from '../screens/scan';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { QRCodeScannerScreen } from '../screens/qr-code-scanner';
+import { NFCScannerScreen } from '../screens/nfc-scanner';
+import { ProfileScreen } from '../screens/profile';
+import { RequestsScreen } from '../screens/requests';
+import { PictureScreen } from '../screens/picture';
+import { PortfolioScreen } from '../screens/portfolio';
+import { AuctionDetailsScreen } from '../screens/auction-details';
+
+import * as userSelectors from '../redux/selectors/user.selector';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
+type IWalletAddress = string | null;
+
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const walletAddress = useSelector(userSelectors.getWalletAddress);
+
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <RootNavigator walletAddress={walletAddress} />
     </NavigationContainer>
   );
 }
@@ -38,11 +52,89 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+function RootNavigator({ walletAddress }: { walletAddress?: IWalletAddress }) {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    <Stack.Navigator initialRouteName="Welcome">
+      {
+        walletAddress
+          ? <Stack.Screen
+              name="Root"
+              component={BottomTabNavigator}
+              options={{
+                headerShown: false,
+                headerTintColor: Colors.light.BLUE,
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }}
+            />
+          : <Stack.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+            options={{
+              headerShown: false,
+              headerTintColor: Colors.light.BLUE,
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
+      }
+      <Stack.Screen
+        name="NFCScanner"
+        component={NFCScannerScreen}
+        options={{
+          title: 'Scan Tangem',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="QRScanner"
+        component={QRCodeScannerScreen}
+        options={{
+          title: 'Scan QR code',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Picture"
+        component={PictureScreen}
+        options={{
+          title: 'Picture overview',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AuctionDetails"
+        component={AuctionDetailsScreen}
+        options={{
+          title: 'Auction details',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{
+          title: 'Oops!',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -61,47 +153,57 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName='Scan'
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
+        name="Scan"
+        component={ScanScreen}
+        options={({ navigation }: RootTabScreenProps<'Scan'>) => ({
+          title: 'Scan picture',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          tabBarIcon: ({ color }) => <TabBarIcon name="barcode" color={color} />,
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Portfolio"
+        component={PortfolioScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Portfolio',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          tabBarIcon: ({ color }) => <TabBarIcon name="briefcase" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="QRScanner"
-        component={QRCodeScannerScreen}
-        options={{
-          title: 'Scan QR code',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
+        name="Requests"
+        component={RequestsScreen}
+        options={({ navigation }: RootTabScreenProps<'Requests'>) => ({
+          title: 'Requests',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} />,
+        })}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={({ navigation }: RootTabScreenProps<'Profile'>) => ({
+          title: 'Profile',
+          headerTintColor: Colors.light.BLUE,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          tabBarIcon: ({ color }) => <TabBarIcon name="address-card" color={color} />,
+        })}
       />
     </BottomTab.Navigator>
   );

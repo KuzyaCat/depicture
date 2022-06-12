@@ -16,9 +16,9 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Scan: {
             screens: {
-              TabOneScreen: ROUTES.TAB_ONE,
+              WelcomeScreen: ROUTES.SCAN,
             },
           },
           TabTwo: {
@@ -29,6 +29,11 @@ const linking: LinkingOptions<RootStackParamList> = {
           QRScanner: {
             screens: {
               QRCodeScannerScreen: ROUTES.QR_SCANNER,
+            },
+          },
+          NFCScanner: {
+            screens: {
+              NFCScannerScreen: ROUTES.NFC_SCANNER,
             },
           },
         },
